@@ -1,0 +1,22 @@
+{
+  "firebase\\index.ts -> firebase/app": {
+    "id": "firebase\\index.ts -> firebase/app",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_firebase_app_dist_esm_index_esm_js.js"
+    ]
+  },
+  "firebase\\index.ts -> firebase/auth": {
+    "id": "firebase\\index.ts -> firebase/auth",
+    "files": []
+  },
+  "firebase\\index.ts -> firebase/firestore": {
+    "id": "firebase\\index.ts -> firebase/firestore",
+    "files": []
+  },
+  "firebase\\index.ts -> firebase/storage": {
+    "id": "firebase\\index.ts -> firebase/storage",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_firebase_storage_dist_esm_index_esm_js.js"
+    ]
+  }
+}

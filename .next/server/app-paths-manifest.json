@@ -1,0 +1,8 @@
+{
+  "/tests/page": "app/tests/page.js",
+  "/study-plans/page": "app/study-plans/page.js",
+  "/library/page": "app/library/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/tests/results/[id]/page": "app/tests/results/[id]/page.js"
+}
