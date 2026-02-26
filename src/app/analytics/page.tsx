@@ -7,24 +7,24 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer
 } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  TrendingUp, 
-  Award, 
-  Clock, 
-  Zap, 
-  CheckCircle2, 
+import {
+  TrendingUp,
+  Award,
+  Clock,
+  Zap,
+  CheckCircle2,
   AlertCircle,
   Trophy,
   ChevronRight,
@@ -35,7 +35,8 @@ import {
   Frown,
   User as UserIcon,
   BookOpen,
-  Target
+  Target,
+  Download
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -66,38 +67,10 @@ const leaderboardData = [
 ];
 
 const mockSolutions = [
-  {
-    id: 1,
-    status: "incorrect",
-    time: "00:07",
-    accuracy: "42%",
-    text: "यदि P का 40 प्रतिशत = Q का 0.5 = R का 2/7 है, तो P : Q : R ज्ञात कीजिए।",
-    points: -0.33
-  },
-  {
-    id: 2,
-    status: "incorrect",
-    time: "00:04",
-    accuracy: "78%",
-    text: "सरल करें: 1 / (5 + √3) + 1 / (5 - √3)",
-    points: -0.33
-  },
-  {
-    id: 3,
-    status: "correct",
-    time: "00:14",
-    accuracy: "82%",
-    text: "एक ट्रेन 2 मिनट में 1.5 किमी की यात्रा करती है। यह 2 घंटे और 10 मिनट में कितनी दूरी तय करेगी?",
-    points: 1.0
-  },
-  {
-    id: 4,
-    status: "unattempted",
-    time: "--:--",
-    accuracy: "19%",
-    text: "दो व्यक्ति, X and Y, एक मैदान किराए पर लेते हैं। X 10 भैंसों को 5 महीने के लिए और 12 भेड़ों को 3 महीने के लिए रखता है। Y 15 भेड़ों को 4 महीने के...",
-    points: 0
-  }
+  { id: 1, status: "incorrect", time: "00:07", accuracy: "42%", text: "यदि P का 40 प्रतिशत = Q का 0.5 = R का 2/7 है, तो P : Q : R ज्ञात कीजिए।", points: -0.33 },
+  { id: 2, status: "incorrect", time: "00:04", accuracy: "78%", text: "सरल करें: 1 / (5 + √3) + 1 / (5 - √3)", points: -0.33 },
+  { id: 3, status: "correct", time: "00:14", accuracy: "82%", text: "एक ट्रेन 2 मिनट में 1.5 किमी की यात्रा करती है। यह 2 घंटे और 10 मिनट में कितनी दूरी तय करेगी?", points: 1.0 },
+  { id: 4, status: "unattempted", time: "--:--", accuracy: "19%", text: "दो व्यक्ति, X and Y, एक मैदान किराए पर लेते हैं। X 10 भैंसों को 5 महीने के लिए...", points: 0 },
 ];
 
 export default function AnalyticsPage() {
@@ -105,39 +78,48 @@ export default function AnalyticsPage() {
   const params = useParams();
   const testId = params?.id || "rrb-group-d-mock";
 
+  const overallStats = [
+    { label: "Rank", value: "22972/25787", icon: Trophy, color: "bg-red-500", text: "text-red-500" },
+    { label: "Score", value: "11.5/50", icon: Award, color: "bg-purple-500", text: "text-purple-600" },
+    { label: "Attempted", value: "7/25", icon: Zap, color: "bg-blue-500", text: "text-blue-600" },
+    { label: "Accuracy", value: "85.71%", icon: CheckCircle2, color: "bg-emerald-500", text: "text-emerald-600" },
+    { label: "Percentile", value: "14.25%", icon: TrendingUp, color: "bg-indigo-500", text: "text-indigo-600" },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-[#f8fafc]">
+    <div className="flex flex-col min-h-screen bg-slate-50">
       <Navbar />
       <div className="flex-1 flex overflow-hidden">
         <Sidebar />
         <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Header - Compact */}
-          <header className="p-3 md:p-4 bg-white border-b shrink-0">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
-              <div className="space-y-0.5">
-                <h1 className="text-xl font-headline font-bold text-slate-900">Analysis & Performance</h1>
-                <p className="text-[10px] text-muted-foreground font-medium">Detailed sectional summary and rank prediction.</p>
+          {/* Header */}
+          <div className="p-4 md:p-5 bg-white border-b shrink-0">
+            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 className="text-xl font-bold text-slate-900">Analysis & Performance</h1>
+                <p className="text-xs text-slate-400 mt-0.5">Detailed sectional summary and rank prediction</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="h-8 px-4 rounded-lg text-[10px] font-bold bg-white border-slate-200">
-                  Download PDF
+                <Button variant="outline" className="h-9 px-4 rounded-xl text-sm font-semibold bg-white border-slate-200 gap-2">
+                  <Download className="h-4 w-4" /> PDF
                 </Button>
-                <Button className="h-8 px-4 rounded-lg text-[10px] font-bold bg-primary shadow-sm" onClick={() => window.history.back()}>
+                <Button className="h-9 px-4 rounded-xl text-sm font-bold bg-primary shadow-sm shadow-primary/20" onClick={() => window.history.back()}>
                   Re-attempt Test
                 </Button>
               </div>
             </div>
-          </header>
+          </div>
 
           <Tabs defaultValue="analysis" className="flex-1 flex flex-col overflow-hidden">
+            {/* Tab bar */}
             <div className="bg-white border-b sticky top-0 z-30">
-              <div className="max-w-7xl mx-auto px-4">
-                <TabsList className="h-11 w-full justify-start bg-transparent p-0 gap-6">
+              <div className="max-w-7xl mx-auto px-4 md:px-5">
+                <TabsList className="h-12 w-full justify-start bg-transparent p-0 gap-6 md:gap-8">
                   {["analysis", "solutions", "leaderboard"].map((tab) => (
-                    <TabsTrigger 
+                    <TabsTrigger
                       key={tab}
-                      value={tab} 
-                      className="h-full rounded-none border-b-2 border-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-primary font-bold text-[11px] md:text-xs px-0 uppercase tracking-wider"
+                      value={tab}
+                      className="h-full rounded-none border-b-2 border-transparent data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-primary font-bold text-sm px-0 uppercase tracking-wider capitalize"
                     >
                       {tab}
                     </TabsTrigger>
@@ -146,85 +128,82 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto thin-scrollbar">
               <div className="max-w-7xl mx-auto w-full">
-                
-                {/* --- ANALYSIS TAB --- */}
-                <TabsContent value="analysis" className="m-0 p-3 md:p-4 space-y-4">
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
-                    {[
-                      { label: "Rank", value: "22972/25787", icon: Trophy, color: "bg-red-500", text: "text-red-500" },
-                      { label: "Score", value: "11.5/50", icon: Award, color: "bg-purple-500", text: "text-purple-500" },
-                      { label: "Attempted", value: "7/25", icon: Zap, color: "bg-blue-400", text: "text-blue-400" },
-                      { label: "Accuracy", value: "85.71%", icon: CheckCircle2, color: "bg-green-500", text: "text-green-500" },
-                      { label: "Percentile", value: "14.25%", icon: TrendingUp, color: "bg-indigo-500", text: "text-indigo-500" },
-                    ].map((stat) => (
-                      <Card key={stat.label} className="border-none shadow-sm bg-white rounded-xl overflow-hidden">
-                        <CardContent className="p-3 flex items-center gap-3">
-                          <div className={cn("p-2 rounded-lg text-white shrink-0", stat.color)}>
+
+                {/* ANALYSIS TAB */}
+                <TabsContent value="analysis" className="m-0 p-4 md:p-5 space-y-5">
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                    {overallStats.map((stat) => (
+                      <Card key={stat.label} className="border-none shadow-sm bg-white rounded-2xl">
+                        <CardContent className="p-4 flex items-center gap-3">
+                          <div className={cn("p-2 rounded-xl text-white shrink-0", stat.color)}>
                             <stat.icon className="h-4 w-4" />
                           </div>
-                          <div>
-                            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tight">{stat.label}</p>
-                            <p className={cn("text-sm font-bold leading-none", stat.text)}>{stat.value}</p>
+                          <div className="min-w-0">
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{stat.label}</p>
+                            <p className={cn("text-sm font-bold leading-none truncate", stat.text)}>{stat.value}</p>
                           </div>
                         </CardContent>
                       </Card>
                     ))}
                   </div>
 
-                  <Card className="border-none shadow-sm bg-white overflow-hidden rounded-xl">
-                    <CardContent className="p-4 flex flex-col md:flex-row items-center justify-between gap-3">
+                  {/* Cutoff Alert */}
+                  <Card className="border-none shadow-sm bg-white rounded-2xl">
+                    <CardContent className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white shrink-0 shadow-sm">
+                        <div className="w-10 h-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-white shrink-0">
                           <Zap className="h-5 w-5" />
                         </div>
-                        <div className="space-y-0.5">
+                        <div>
                           <h3 className="text-sm font-bold text-slate-800">You scored <span className="text-primary italic">23.5 Marks</span> less than cutoff!</h3>
-                          <p className="text-[10px] text-muted-foreground">Cutoff: 35.0 | Your Score: 11.5</p>
+                          <p className="text-xs text-slate-400 mt-0.5">Cutoff: 35.0 | Your Score: 11.5</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 p-1.5 bg-slate-50 rounded-xl border border-slate-100">
-                         <div className="text-center px-4 border-r">
-                            <p className="text-[9px] font-bold text-muted-foreground uppercase">Gap</p>
-                            <p className="text-lg font-bold text-red-500">-23.5</p>
-                         </div>
-                         <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white font-bold text-[10px] h-8 rounded-lg">
-                            Unlock Coaching
-                         </Button>
+                      <div className="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-100 self-stretch sm:self-auto">
+                        <div className="text-center px-3 border-r">
+                          <p className="text-[10px] font-bold text-slate-400 uppercase">Gap</p>
+                          <p className="text-xl font-bold text-red-500">-23.5</p>
+                        </div>
+                        <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 rounded-xl px-4">
+                          Unlock Coaching
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
 
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                     <div className="lg:col-span-8 space-y-4">
-                      <Card className="border-none shadow-sm bg-white overflow-hidden rounded-xl">
-                        <CardHeader className="p-4 border-b">
-                          <CardTitle className="text-sm font-headline">Sectional Summary</CardTitle>
+                      {/* Sectional Summary */}
+                      <Card className="border-none shadow-sm bg-white rounded-2xl overflow-hidden">
+                        <CardHeader className="p-4 border-b bg-slate-50/50">
+                          <CardTitle className="text-sm font-bold">Sectional Summary</CardTitle>
                         </CardHeader>
                         <CardContent className="p-0">
                           <Table>
-                            <TableHeader className="bg-slate-50/50">
-                              <TableRow>
-                                <TableHead className="text-[10px] h-10 font-bold uppercase">Section Name</TableHead>
-                                <TableHead className="text-[10px] h-10 font-bold uppercase">Score</TableHead>
-                                <TableHead className="text-[10px] h-10 font-bold uppercase text-center">Accuracy</TableHead>
-                                <TableHead className="text-[10px] h-10 font-bold uppercase text-right">Time</TableHead>
+                            <TableHeader>
+                              <TableRow className="bg-slate-50/30">
+                                <TableHead className="text-[10px] h-10 font-bold uppercase text-slate-400">Section</TableHead>
+                                <TableHead className="text-[10px] h-10 font-bold uppercase text-slate-400">Score</TableHead>
+                                <TableHead className="text-[10px] h-10 font-bold uppercase text-center text-slate-400">Accuracy</TableHead>
+                                <TableHead className="text-[10px] h-10 font-bold uppercase text-right text-slate-400">Time</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
                               {[
                                 { name: "Quantitative Aptitude", score: "11.5/50", accuracy: "85.7%", time: "19:54 / 30m", color: "text-red-500" },
-                                { name: "General Intelligence", score: "24.0/50", accuracy: "92.1%", time: "22:10 / 30m", color: "text-green-600" },
+                                { name: "General Intelligence", score: "24.0/50", accuracy: "92.1%", time: "22:10 / 30m", color: "text-emerald-600" },
                                 { name: "General Science", score: "18.5/50", accuracy: "78.4%", time: "12:45 / 30m", color: "text-blue-600" },
                               ].map((row) => (
-                                <TableRow key={row.name} className="hover:bg-slate-50/30">
-                                  <TableCell className="text-[11px] font-bold py-3">{row.name}</TableCell>
-                                  <TableCell className={cn("text-[11px] font-bold", row.color)}>{row.score}</TableCell>
+                                <TableRow key={row.name} className="hover:bg-slate-50/50">
+                                  <TableCell className="text-sm font-semibold py-3.5 text-slate-700">{row.name}</TableCell>
+                                  <TableCell className={cn("text-sm font-bold", row.color)}>{row.score}</TableCell>
                                   <TableCell className="text-center">
-                                    <Badge variant="secondary" className="bg-green-50 text-green-700 text-[9px] h-5 px-2 font-bold">{row.accuracy}</Badge>
+                                    <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 text-[10px] h-5 px-2 font-bold">{row.accuracy}</Badge>
                                   </TableCell>
-                                  <TableCell className="text-right text-[10px] font-mono text-muted-foreground">{row.time}</TableCell>
+                                  <TableCell className="text-right text-xs font-mono text-slate-400">{row.time}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
@@ -232,20 +211,21 @@ export default function AnalyticsPage() {
                         </CardContent>
                       </Card>
 
-                      <Card className="border-none shadow-sm bg-white rounded-xl overflow-hidden">
+                      {/* Marks Distribution */}
+                      <Card className="border-none shadow-sm bg-white rounded-2xl">
                         <CardHeader className="p-4">
-                          <CardTitle className="text-sm font-headline flex items-center gap-2">
+                          <CardTitle className="text-sm font-bold flex items-center gap-2">
                             <BarChart3 className="h-4 w-4 text-primary" /> Marks Distribution
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="h-[220px] p-4 pt-0">
+                        <CardContent className="h-[200px] p-4 pt-0">
                           <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={marksDistributionData}>
-                              <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.1} />
-                              <XAxis dataKey="marks" tick={{fontSize: 9}} axisLine={false} tickLine={false} />
-                              <YAxis tick={{fontSize: 9}} axisLine={false} tickLine={false} />
-                              <Tooltip contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', fontSize: '10px'}} />
-                              <Line type="monotone" dataKey="students" stroke="hsl(var(--primary))" strokeWidth={3} dot={{r: 4, fill: 'hsl(var(--primary))'}} />
+                              <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.08} />
+                              <XAxis dataKey="marks" tick={{ fontSize: 9, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                              <YAxis tick={{ fontSize: 9, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
+                              <Tooltip contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 8px 30px rgba(0,0,0,0.12)', fontSize: '11px' }} />
+                              <Line type="monotone" dataKey="students" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ r: 4, fill: 'hsl(var(--primary))', strokeWidth: 2, stroke: 'white' }} />
                             </LineChart>
                           </ResponsiveContainer>
                         </CardContent>
@@ -253,63 +233,62 @@ export default function AnalyticsPage() {
                     </div>
 
                     <div className="lg:col-span-4 space-y-4">
-                      <Card className="border-none shadow-sm bg-white rounded-xl overflow-hidden">
+                      {/* Strengths & Weaknesses */}
+                      <Card className="border-none shadow-sm bg-white rounded-2xl">
                         <CardHeader className="p-4 pb-2">
-                          <CardTitle className="text-sm font-headline">Strengths & Weaknesses</CardTitle>
+                          <CardTitle className="text-sm font-bold">Strengths & Weaknesses</CardTitle>
                         </CardHeader>
-                        <CardContent className="p-4 pt-0 space-y-2.5">
-                           <div className="p-3 rounded-xl bg-red-50 border border-red-100 space-y-2">
-                              <p className="text-[9px] font-bold text-red-700 uppercase flex items-center gap-1.5">
-                                 <AlertCircle className="h-3 w-3" /> Critical Weakness
-                              </p>
-                              <h4 className="text-[11px] font-bold text-slate-800">Trigonometric Ratios</h4>
-                              <div className="flex items-center gap-2">
-                                 <div className="h-1.5 flex-1 bg-red-200 rounded-full overflow-hidden">
-                                    <div className="h-full bg-red-600" style={{ width: '12%' }} />
-                                 </div>
-                                 <span className="text-[10px] font-bold text-red-600">12%</span>
+                        <CardContent className="p-4 pt-0 space-y-3">
+                          <div className="p-3.5 rounded-xl bg-red-50 border border-red-100 space-y-2">
+                            <p className="text-[10px] font-bold text-red-600 uppercase flex items-center gap-1.5">
+                              <AlertCircle className="h-3 w-3" /> Critical Weakness
+                            </p>
+                            <h4 className="text-sm font-bold text-slate-800">Trigonometric Ratios</h4>
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 flex-1 bg-red-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-red-500 rounded-full" style={{ width: '12%' }} />
                               </div>
-                           </div>
-                           <div className="p-3 rounded-xl bg-green-50 border border-green-100 space-y-2">
-                              <p className="text-[9px] font-bold text-green-700 uppercase flex items-center gap-1.5">
-                                 <CheckCircle2 className="h-3 w-3" /> Area of Strength
-                              </p>
-                              <h4 className="text-[11px] font-bold text-slate-800">Time & Speed</h4>
-                              <div className="flex items-center gap-2">
-                                 <div className="h-1.5 flex-1 bg-green-200 rounded-full overflow-hidden">
-                                    <div className="h-full bg-green-600" style={{ width: '92%' }} />
-                                 </div>
-                                 <span className="text-[10px] font-bold text-green-600">92%</span>
+                              <span className="text-xs font-bold text-red-500">12%</span>
+                            </div>
+                          </div>
+                          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-100 space-y-2">
+                            <p className="text-[10px] font-bold text-emerald-600 uppercase flex items-center gap-1.5">
+                              <CheckCircle2 className="h-3 w-3" /> Area of Strength
+                            </p>
+                            <h4 className="text-sm font-bold text-slate-800">Time & Speed</h4>
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 flex-1 bg-emerald-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-emerald-500 rounded-full" style={{ width: '92%' }} />
                               </div>
-                           </div>
+                              <span className="text-xs font-bold text-emerald-500">92%</span>
+                            </div>
+                          </div>
                         </CardContent>
                       </Card>
 
-                      <Card className="border-none shadow-sm bg-white rounded-xl overflow-hidden">
-                         <CardHeader className="p-4 pb-2">
-                           <CardTitle className="text-sm font-headline">Rank Predictor</CardTitle>
-                         </CardHeader>
-                         <CardContent className="p-4 flex flex-col items-center">
-                            <div className="w-full h-8 bg-slate-100 rounded-lg relative mb-6">
-                               <div className="absolute top-1/2 left-[14%] -translate-y-1/2 w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg z-10" />
-                               <div className="absolute -top-7 left-[14%] -translate-x-1/2 bg-slate-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">Rank 22972</div>
-                               <div className="flex justify-between px-2 pt-10">
-                                  {["-10", "14", "38", "50"].map((v) => (
-                                     <span key={v} className="text-[9px] font-bold text-muted-foreground">{v}</span>
-                                  ))}
-                               </div>
+                      {/* Rank Predictor */}
+                      <Card className="border-none shadow-sm bg-white rounded-2xl">
+                        <CardHeader className="p-4 pb-2">
+                          <CardTitle className="text-sm font-bold">Rank Predictor</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4">
+                          <div className="w-full h-9 bg-gradient-to-r from-red-200 via-amber-200 to-emerald-200 rounded-xl relative mb-8">
+                            <div className="absolute top-1/2 left-[14%] -translate-y-1/2 w-5 h-5 bg-primary rounded-full border-3 border-white shadow-lg z-10" />
+                            <div className="absolute -top-8 left-[14%] -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg whitespace-nowrap">
+                              Rank 22972
                             </div>
-                            <p className="text-[10px] text-center text-muted-foreground italic mt-3">
-                               "Projected rank in the top 88%."
-                            </p>
-                         </CardContent>
+                          </div>
+                          <p className="text-xs text-center text-slate-400 italic">
+                            Projected rank: Top 88% of all aspirants
+                          </p>
+                        </CardContent>
                       </Card>
                     </div>
                   </div>
                 </TabsContent>
 
-                {/* --- SOLUTIONS TAB - COMPACT --- */}
-                <TabsContent value="solutions" className="m-0 p-3 md:p-4 space-y-4">
+                {/* SOLUTIONS TAB */}
+                <TabsContent value="solutions" className="m-0 p-4 md:p-5 space-y-4">
                   <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                     {[
                       { id: "all", label: "All", count: 25 },
@@ -319,11 +298,10 @@ export default function AnalyticsPage() {
                       <Button
                         key={filter.id}
                         size="sm"
-                        variant={activeSolutionFilter === filter.id ? "default" : "outline"}
                         onClick={() => setActiveSolutionFilter(filter.id)}
                         className={cn(
-                          "rounded-full h-8 px-4 text-[10px] font-bold transition-all",
-                          activeSolutionFilter === filter.id ? "bg-primary text-white shadow-sm" : "bg-white text-slate-500 border-slate-200"
+                          "rounded-full h-9 px-5 text-sm font-bold transition-all shrink-0",
+                          activeSolutionFilter === filter.id ? "bg-primary text-white shadow-sm" : "bg-white text-slate-500 border border-slate-200 hover:border-primary/30"
                         )}
                       >
                         {filter.label} ({filter.count})
@@ -331,164 +309,153 @@ export default function AnalyticsPage() {
                     ))}
                   </div>
 
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold text-slate-800">संख्यात्मक योग्यता (Quantitative Aptitude)</h3>
+                    <p className="text-xs text-slate-400 font-semibold">25 Questions</p>
+                  </div>
+
                   <div className="space-y-3">
-                    <div className="px-1">
-                      <h3 className="text-sm font-bold text-slate-800">संख्यात्मक योग्यता (Quantitative Aptitude)</h3>
-                      <p className="text-[9px] text-muted-foreground font-bold uppercase tracking-widest">25 Questions</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-2.5">
-                      {mockSolutions.map((q, idx) => (
-                        <Card key={q.id} className="border-none shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow group">
-                          <CardContent className="p-3.5 space-y-3">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <div className={cn(
-                                  "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold text-white shadow-sm transition-transform",
-                                  q.status === "incorrect" ? "bg-red-500" : q.status === "correct" ? "bg-green-500" : "bg-slate-300"
-                                )}>
-                                  {q.id}
-                                </div>
-                                <div className="flex items-center gap-3 text-[10px] font-bold text-slate-400">
-                                  <div className="flex items-center gap-1">
-                                    <Clock className="h-3 w-3" />
-                                    <span>{q.time}</span>
-                                  </div>
-                                  <div className="h-3 w-px bg-slate-200" />
-                                  <div className="flex items-center gap-1">
-                                    {q.status === "incorrect" ? <Frown className="h-3.5 w-3.5" /> : <Smile className="h-3.5 w-3.5" />}
-                                    <span>{q.accuracy} accuracy</span>
-                                  </div>
-                                </div>
+                    {mockSolutions.map((q, idx) => (
+                      <Card key={q.id} className="border-none shadow-sm rounded-2xl overflow-hidden hover:shadow-md transition-shadow bg-white">
+                        <CardContent className="p-4 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className={cn(
+                                "w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold text-white shadow-sm",
+                                q.status === "incorrect" ? "bg-red-500" : q.status === "correct" ? "bg-emerald-500" : "bg-slate-200"
+                              )}>
+                                {q.id}
                               </div>
-                              <Bookmark className="h-4 w-4 text-slate-300 cursor-pointer hover:text-primary transition-colors" />
+                              <div className="flex items-center gap-3 text-xs font-semibold text-slate-400">
+                                <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {q.time}</span>
+                                <span className="w-px h-3 bg-slate-200" />
+                                <span className="flex items-center gap-1">
+                                  {q.status === "incorrect" ? <Frown className="h-3.5 w-3.5" /> : <Smile className="h-3.5 w-3.5" />}
+                                  {q.accuracy} accuracy
+                                </span>
+                              </div>
                             </div>
-                            
-                            <p className="text-sm font-medium text-slate-700 leading-snug">
-                              {q.text}
-                            </p>
+                            <Bookmark className="h-4 w-4 text-slate-200 cursor-pointer hover:text-primary transition-colors" />
+                          </div>
 
-                            <Separator className="bg-slate-100" />
+                          <p className="text-sm text-slate-700 leading-relaxed">{q.text}</p>
 
-                            <div className="flex items-center justify-between">
-                               <Button variant="ghost" size="sm" className="h-6 text-[10px] font-bold text-primary p-0 hover:bg-transparent flex items-center gap-1" asChild>
-                                 <Link href={`/tests/solutions/${testId}?q=${idx}`}>
-                                   VIEW SOLUTION <ChevronRight className="h-3 w-3" />
-                                 </Link>
-                               </Button>
-                               {q.points !== 0 && (
-                                 <Badge className={cn("text-[9px] h-5 px-1.5 rounded-md", q.points > 0 ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700")}>
-                                   {q.points > 0 ? `+${q.points}` : q.points}
-                                 </Badge>
-                               )}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                          <Separator className="bg-slate-50" />
+
+                          <div className="flex items-center justify-between">
+                            <Button variant="ghost" size="sm" className="h-7 text-xs font-bold text-primary p-0 hover:bg-transparent flex items-center gap-1" asChild>
+                              <Link href={`/tests/solutions/${testId}?q=${idx}`}>
+                                VIEW SOLUTION <ChevronRight className="h-3.5 w-3.5" />
+                              </Link>
+                            </Button>
+                            {q.points !== 0 && (
+                              <Badge className={cn("text-[10px] h-5 px-2 rounded-lg font-bold", q.points > 0 ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700")}>
+                                {q.points > 0 ? `+${q.points}` : q.points}
+                              </Badge>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </TabsContent>
 
-                {/* --- LEADERBOARD TAB - COMPACT --- */}
-                <TabsContent value="leaderboard" className="m-0 flex flex-col h-full bg-white relative">
-                  <div className="p-3 md:p-4 space-y-4 pb-20">
-                    <div className="flex justify-center">
-                      <Button 
-                        variant="outline" 
-                        className="w-full max-w-lg rounded-full h-10 bg-white border-slate-100 shadow-sm flex items-center justify-center gap-2 group relative overflow-hidden"
-                        onClick={() => window.location.reload()}
-                      >
-                        <span className="text-blue-600 font-bold text-sm">Reattempt Test</span>
-                        <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
-                          <ArrowRight className="h-3.5 w-3.5 text-white" />
-                        </div>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-10">
-                           <BookOpen className="h-6 w-6 text-blue-600" />
-                        </div>
-                      </Button>
-                    </div>
+                {/* LEADERBOARD TAB */}
+                <TabsContent value="leaderboard" className="m-0 flex flex-col relative pb-20">
+                  <div className="p-4 md:p-5 space-y-5">
+                    <Button
+                      variant="outline"
+                      className="w-full max-w-lg mx-auto flex rounded-full h-11 bg-white border-slate-100 shadow-sm items-center justify-center gap-2 group"
+                      onClick={() => window.location.reload()}
+                    >
+                      <span className="text-blue-600 font-bold text-sm">Reattempt Test</span>
+                      <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
+                        <ArrowRight className="h-3.5 w-3.5 text-white" />
+                      </div>
+                    </Button>
 
-                    <div className="relative pt-6 pb-3 px-4 rounded-[2rem] bg-[#fffef0] border border-yellow-100 shadow-sm max-w-2xl mx-auto">
-                      <div className="flex items-end justify-center gap-4 md:gap-10">
+                    {/* Podium */}
+                    <div className="relative pt-8 pb-4 px-6 rounded-3xl bg-gradient-to-b from-amber-50 to-yellow-50 border border-amber-100 shadow-sm max-w-xl mx-auto">
+                      <div className="flex items-end justify-center gap-6 md:gap-12">
                         {/* Rank 2 */}
                         <div className="flex flex-col items-center gap-2 mb-3">
-                          <div className="relative">
-                            <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
-                              <AvatarImage src="https://picsum.photos/seed/shallu/100" />
-                              <AvatarFallback>S</AvatarFallback>
-                            </Avatar>
-                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-400 rounded-full border-2 border-[#fffef0] flex items-center justify-center text-white text-[9px] font-bold">2</div>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-[10px] font-bold text-slate-800">Shallu</p>
-                            <p className="text-[9px] font-bold text-slate-500">50/50</p>
+                          <Avatar className="h-16 w-16 border-2 border-white shadow-lg">
+                            <AvatarImage src="https://picsum.photos/seed/shallu/100" />
+                            <AvatarFallback>S</AvatarFallback>
+                          </Avatar>
+                          <div className="w-6 h-6 bg-slate-300 rounded-full flex items-center justify-center text-white text-xs font-black -mt-5 ml-10 border-2 border-white shadow-sm">2</div>
+                          <div className="text-center -mt-1">
+                            <p className="text-xs font-bold text-slate-800">Shallu</p>
+                            <p className="text-[10px] text-slate-400 font-semibold">50/50</p>
                           </div>
                         </div>
 
                         {/* Rank 1 */}
                         <div className="flex flex-col items-center gap-2">
                           <div className="relative">
-                            <div className="absolute -inset-3 bg-yellow-400/10 rounded-full animate-pulse" />
-                            <Avatar className="h-20 w-20 border-4 border-orange-400 shadow-xl relative z-10 ring-4 ring-white/50">
+                            <div className="absolute -inset-4 bg-amber-400/15 rounded-full animate-pulse" />
+                            <Avatar className="h-20 w-20 border-4 border-amber-400 shadow-xl relative z-10 ring-4 ring-white/50">
                               <AvatarImage src="https://picsum.photos/seed/ayodhya/100" />
                               <AvatarFallback>A</AvatarFallback>
                             </Avatar>
-                            <div className="absolute -top-1 -right-1 w-7 h-7 bg-orange-400 rounded-full border-2 border-[#fffef0] flex items-center justify-center text-white text-xs font-bold z-20">1</div>
+                            <div className="absolute -top-1 -right-1 w-7 h-7 bg-amber-400 rounded-full flex items-center justify-center text-white text-xs font-black z-20 border-2 border-white shadow-sm">1</div>
                           </div>
-                          <div className="text-center pt-1">
-                            <p className="text-xs font-bold text-slate-900">Ayodhya</p>
-                            <p className="text-[10px] font-bold text-slate-600">50/50</p>
+                          <div className="text-center mt-1">
+                            <p className="text-sm font-bold text-slate-900">Ayodhya</p>
+                            <p className="text-xs text-slate-400 font-semibold">50/50</p>
                           </div>
                         </div>
 
                         {/* Rank 3 */}
                         <div className="flex flex-col items-center gap-2 mb-3">
-                          <div className="relative">
-                            <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
-                              <AvatarImage src="https://picsum.photos/seed/dhanesh/100" />
-                              <AvatarFallback>D</AvatarFallback>
-                            </Avatar>
-                            <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-400 rounded-full border-2 border-[#fffef0] flex items-center justify-center text-white text-[9px] font-bold">3</div>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-[10px] font-bold text-slate-800">Dhanesh</p>
-                            <p className="text-[9px] font-bold text-slate-500">50/50</p>
+                          <Avatar className="h-16 w-16 border-2 border-white shadow-lg">
+                            <AvatarImage src="https://picsum.photos/seed/dhanesh/100" />
+                            <AvatarFallback>D</AvatarFallback>
+                          </Avatar>
+                          <div className="w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center text-white text-xs font-black -mt-5 ml-10 border-2 border-white shadow-sm">3</div>
+                          <div className="text-center -mt-1">
+                            <p className="text-xs font-bold text-slate-800">Dhanesh</p>
+                            <p className="text-[10px] text-slate-400 font-semibold">50/50</p>
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="max-w-xl mx-auto divide-y border-t mt-4">
-                      {leaderboardData.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between py-2.5 group hover:bg-slate-50 transition-colors px-3 rounded-lg">
-                          <div className="flex items-center gap-4">
-                            <span className="text-[10px] font-bold text-slate-400 w-4">{idx + 1}</span>
-                            <Avatar className="h-8 w-8 border border-white shadow-sm">
-                              <AvatarFallback className="bg-slate-100 text-slate-600 font-bold text-[10px]">{item.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                            <span className="text-[13px] font-bold text-slate-700 group-hover:text-primary transition-colors">{item.name}</span>
+                    {/* Leaderboard list */}
+                    <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-sm border-none overflow-hidden">
+                      <div className="divide-y divide-slate-50">
+                        {leaderboardData.map((item, idx) => (
+                          <div key={idx} className="flex items-center justify-between py-3 px-4 hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs font-bold text-slate-300 w-5 text-center">{idx + 1}</span>
+                              <Avatar className="h-9 w-9 border border-slate-100">
+                                <AvatarFallback className="bg-primary/10 text-primary font-bold text-xs">{item.name.charAt(0)}</AvatarFallback>
+                              </Avatar>
+                              <span className="text-sm font-semibold text-slate-700">{item.name}</span>
+                            </div>
+                            <span className="text-sm font-bold text-slate-900">{item.score}</span>
                           </div>
-                          <span className="text-[13px] font-bold text-slate-900">{item.score}</span>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="fixed bottom-0 left-0 right-0 p-3 bg-[#e8f0fe] border-t border-blue-100 shadow-[0_-4px_15px_rgba(0,0,0,0.05)] z-40 flex items-center justify-between">
-                    <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+                  {/* Sticky bottom: Your rank */}
+                  <div className="fixed bottom-0 left-0 right-0 p-3 bg-blue-50 border-t border-blue-100 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] z-40">
+                    <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-base font-bold text-slate-900">22972</span>
+                        <span className="text-lg font-bold text-slate-900">22972</span>
                         <Avatar className="h-9 w-9 border-2 border-white shadow-sm">
                           <AvatarFallback className="bg-slate-300 text-white"><UserIcon className="h-4 w-4" /></AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col">
-                          <span className="text-sm font-bold text-slate-800 leading-none">Aspirant (You)</span>
-                          <span className="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-0.5">Top 88%</span>
+                        <div>
+                          <span className="text-sm font-bold text-slate-800">Aspirant (You)</span>
+                          <div><span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Top 88%</span></div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-base font-bold text-slate-900">11.5/50.0</p>
-                        <p className="text-[9px] font-bold text-slate-500 uppercase leading-none">Score</p>
+                        <p className="text-lg font-bold text-slate-900">11.5/50.0</p>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase">Score</p>
                       </div>
                     </div>
                   </div>
