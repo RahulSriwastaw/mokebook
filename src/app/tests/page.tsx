@@ -47,23 +47,23 @@ export default function TestSeriesPage() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
       <Navbar />
       <div className="flex-1 flex overflow-hidden">
         <Sidebar />
         <main className="flex-1 p-4 md:p-6 space-y-6 overflow-y-auto thin-scrollbar">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
             <div>
-              <h1 className="text-xl font-bold text-slate-900">Test Series</h1>
-              <p className="text-sm text-slate-400 mt-0.5">Find and attempt your target exam mocks</p>
+              <h1 className="text-2xl font-extrabold text-slate-900 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Test Series</h1>
+              <p className="text-sm text-slate-500 mt-1">Find and attempt your target exam mocks</p>
             </div>
             {/* Search */}
             <div className="relative w-full sm:w-72">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <Input
                 placeholder="Search exams (JEE, NEET, SSC)..."
-                className="pl-10 h-10 bg-white border-slate-100 rounded-xl shadow-sm text-sm focus-visible:ring-primary"
+                className="pl-10 h-10 bg-white border-slate-200 rounded-xl shadow-sm text-sm focus-visible:ring-primary focus-visible:border-primary transition-all duration-200 hover:border-slate-300"
               />
             </div>
           </div>

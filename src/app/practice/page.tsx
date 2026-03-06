@@ -65,29 +65,29 @@ export default function PracticePage() {
   // ── EXAM SELECTOR ────────────────────────────────────
   if (!selectedExam) {
     return (
-      <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-white">
         <Navbar />
         <div className="flex-1 flex overflow-hidden">
           <Sidebar />
           <main className="flex-1 p-4 md:p-6 overflow-y-auto thin-scrollbar">
-            <div className="max-w-5xl mx-auto space-y-7">
+            <div className="max-w-5xl mx-auto space-y-8">
               <header className="text-center space-y-4 pt-4 md:pt-8">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15 text-primary text-xs font-bold uppercase tracking-widest">
                   <Star className="h-3.5 w-3.5 fill-primary" /> Select Your Target Exam
                 </div>
-                <div className="space-y-2">
-                  <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <div className="space-y-3">
+                  <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                     Start Your <span className="text-primary italic">Practice Drills</span>
                   </h1>
-                  <p className="text-slate-400 text-sm max-w-md mx-auto leading-relaxed">
+                  <p className="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
                     Choose a category to unlock topic-wise mastery and AI-curated question banks.
                   </p>
                 </div>
-                <div className="relative max-w-sm mx-auto pt-2">
+                <div className="relative max-w-sm mx-auto pt-3">
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     placeholder="Search exams (SSC, JEE, IBPS)..."
-                    className="pl-10 h-11 bg-white border-slate-100 rounded-xl shadow-sm focus-visible:ring-primary text-sm"
+                    className="pl-10 h-11 bg-white border-slate-200 rounded-xl shadow-sm focus-visible:ring-primary focus-visible:border-primary transition-all duration-200 hover:border-slate-300 text-sm"
                     value={examSearch}
                     onChange={(e) => setExamSearch(e.target.value)}
                   />
@@ -99,12 +99,12 @@ export default function PracticePage() {
                   {filteredExams.map((exam) => (
                     <Card
                       key={exam.id}
-                      className="group border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer rounded-2xl overflow-hidden bg-white card-hover"
+                      className="group border border-slate-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer rounded-2xl overflow-hidden bg-white card-hover transition-all duration-200"
                       onClick={() => setSelectedExam(exam.id)}
                     >
                       <CardContent className="p-5 space-y-4">
                         <div className="flex justify-between items-start">
-                          <div className={cn("p-2.5 rounded-xl transition-transform group-hover:scale-110 duration-200 border", exam.bg, exam.border)}>
+                          <div className={cn("p-2.5 rounded-xl transition-transform group-hover:scale-110 group-hover:shadow-lg duration-200 border", exam.bg, exam.border)}>
                             <exam.icon className={cn("h-5 w-5", exam.color)} />
                           </div>
                           <span className="text-[9px] font-bold text-slate-300 uppercase tracking-wider">

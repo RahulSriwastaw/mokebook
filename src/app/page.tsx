@@ -175,25 +175,33 @@ export default function LandingPage() {
       >
         {/* Animated gradient mesh background */}
         <div className="absolute inset-0 -z-20">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-orange-50/40" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-orange-50/30" />
           <div
-            className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] rounded-full opacity-40"
+            className="absolute top-[-15%] right-[-10%] w-[900px] h-[900px] rounded-full opacity-30"
             style={{
-              background: "radial-gradient(circle, rgba(255,92,40,0.12) 0%, rgba(255,140,80,0.06) 50%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(255,92,40,0.15) 0%, rgba(255,140,80,0.08) 40%, transparent 70%)",
               transform: `translate(${-parallax.x * 0.8}px, ${-parallax.y * 0.8}px)`,
-              transition: "transform 0.1s ease-out"
+              transition: "transform 0.15s ease-out"
             }}
           />
           <div
-            className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full opacity-40"
+            className="absolute bottom-[-15%] left-[-10%] w-[700px] h-[700px] rounded-full opacity-30"
             style={{
-              background: "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(59,130,246,0.12) 0%, rgba(147,51,234,0.06) 40%, transparent 70%)",
               transform: `translate(${parallax.x * 0.5}px, ${parallax.y * 0.5}px)`,
-              transition: "transform 0.1s ease-out"
+              transition: "transform 0.15s ease-out"
             }}
           />
-          {/* Grid pattern */}
-          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.5) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+          <div
+            className="absolute top-1/2 left-1/2 w-[500px] h-[500px] rounded-full opacity-20"
+            style={{
+              background: "radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%)",
+              transform: `translate(${parallax.x * 0.3}px, ${parallax.y * 0.3}px)`,
+              transition: "transform 0.15s ease-out"
+            }}
+          />
+          {/* Enhanced grid pattern */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.3) 1px, transparent 1px)", backgroundSize: "50px 50px" }} />
         </div>
 
         {/* Floating particles */}

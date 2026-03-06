@@ -62,14 +62,14 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-sm supports-[backdrop-filter]:bg-white/80 shrink-0 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/85 shrink-0 shadow-sm transition-all duration-300">
       <div className="flex h-14 items-center justify-between gap-4 px-4 md:px-6 max-w-full">
         {/* Left: Logo + Mobile Menu */}
         <div className="flex items-center gap-2.5">
           {user && (
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden h-9 w-9 rounded-xl hover:bg-slate-100">
+                <Button variant="ghost" size="icon" className="md:hidden h-9 w-9 rounded-xl hover:bg-slate-100 hover:shadow-md transition-all duration-200">
                   <Menu className="h-5 w-5 text-slate-600" />
                 </Button>
               </SheetTrigger>
@@ -173,7 +173,7 @@ export function Navbar() {
               </div>
 
               {/* Notifications */}
-              <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-xl hover:bg-slate-100">
+              <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-xl hover:bg-slate-100 hover:shadow-md transition-all duration-200">
                 <Bell className="h-4.5 w-4.5 text-slate-500" />
                 <span className="absolute top-1.5 right-1.5 flex h-2 w-2 rounded-full bg-red-500 border-2 border-white" />
               </Button>
@@ -181,7 +181,7 @@ export function Navbar() {
               {/* User dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 bg-slate-100 overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all">
+                  <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 bg-slate-100 overflow-hidden border-2 border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-200">
                     {user?.photoURL ? (
                       <img src={user.photoURL} alt="User" className="h-9 w-9 object-cover" />
                     ) : (
@@ -241,10 +241,10 @@ export function Navbar() {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" className="h-9 text-sm font-semibold text-slate-600 rounded-xl" asChild>
+              <Button variant="ghost" size="sm" className="h-9 text-sm font-semibold text-slate-600 rounded-xl hover:bg-slate-100 hover:shadow-sm transition-all duration-200" asChild>
                 <Link href="/login">Login</Link>
               </Button>
-              <Button size="sm" className="h-9 text-sm font-semibold bg-primary hover:bg-primary/90 rounded-xl shadow-sm shadow-primary/20 px-4" asChild>
+              <Button size="sm" className="h-9 text-sm font-semibold bg-primary hover:bg-primary/90 hover:shadow-lg hover:-translate-y-0.5 rounded-xl shadow-sm shadow-primary/20 px-4 transition-all duration-200" asChild>
                 <Link href="/login">Get Started</Link>
               </Button>
             </div>
